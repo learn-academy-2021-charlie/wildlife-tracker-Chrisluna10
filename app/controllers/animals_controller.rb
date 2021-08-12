@@ -7,7 +7,7 @@ class AnimalsController < ApplicationController
 
     def show
         animal = Animal.find(params[:id])
-        render json: animal
+        render json: animal, include: :sightings
     end
     
     def create
@@ -36,7 +36,8 @@ class AnimalsController < ApplicationController
     def destroy
         animal = Animal.find(params[:id])
         if animal.destroy
-            render json: "Animal deleted"
+            @id = params[:id]
+            render json: "Animal #{@id} deleted"
         else
             render json: animal.errors
         end
